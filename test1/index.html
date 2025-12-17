@@ -2,207 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>WIPRO Windows 11 Mock Test</title>
+<title>WIPRO Windows 11 – Step Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto;
+  margin:0;
+  font-family:system-ui,Segoe UI;
   background:#0f172a;
   color:#e5e7eb;
-  margin:0;
-  padding:20px;
 }
 .container{
-  max-width:900px;
+  max-width:700px;
   margin:auto;
+  padding:20px;
 }
-h1{
-  text-align:center;
-  margin-bottom:8px;
+.card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:14px;
+  padding:20px;
 }
-.subtitle{
-  text-align:center;
+.qno{
   color:#94a3b8;
-  margin-bottom:20px;
+  margin-bottom:6px;
 }
 .question{
-  background:#020617;
-  border:1px solid #1e293b;
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:16px;
-}
-.q-title{
+  font-size:18px;
   font-weight:600;
+  margin-bottom:14px;
+}
+.option{
+  padding:10px;
+  border:1px solid #334155;
+  border-radius:10px;
   margin-bottom:10px;
-}
-.options label{
-  display:block;
-  padding:8px 10px;
-  border-radius:8px;
   cursor:pointer;
-  margin-bottom:6px;
-  border:1px solid transparent;
 }
-.options label:hover{
+.option:hover{
   background:#020617;
-  border-color:#334155;
 }
-input[type=radio]{
-  margin-right:8px;
+.correct{
+  border-color:#22c55e;
+  background:#022c22;
 }
-.submit-btn{
+.wrong{
+  border-color:#ef4444;
+  background:#2a0606;
+}
+.feedback{
+  margin-top:12px;
+  font-weight:600;
+}
+.btn{
+  margin-top:18px;
   width:100%;
-  padding:14px;
-  margin-top:20px;
-  font-size:16px;
-  font-weight:700;
+  padding:12px;
   background:#2563eb;
-  border:none;
   color:#fff;
-  border-radius:12px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
   cursor:pointer;
 }
-.result{
-  margin-top:24px;
+.result-card{
   background:#020617;
   border:1px solid #1e293b;
-  border-radius:12px;
+  border-radius:14px;
   padding:20px;
-  display:none;
-}
-.score{
-  font-size:22px;
-  font-weight:800;
 }
 .good{color:#22c55e}
 .bad{color:#ef4444}
-.note{
-  color:#94a3b8;
-  margin-top:6px;
-}
 </style>
 </head>
 
 <body>
 <div class="container">
-<h1>WIPRO Windows 11 Mock Test</h1>
-<div class="subtitle">75 Questions • Single Correct Answer • Final Score</div>
 
-<form id="quizForm"></form>
+<div id="quiz" class="card"></div>
 
-<button class="submit-btn" onclick="submitTest()">Submit Test</button>
+<div id="result" class="result-card" style="display:none"></div>
 
-<div class="result" id="resultBox"></div>
 </div>
 
 <script>
 const questions = [
 {q:"Widgets in Windows 11 are powered primarily by which service?",o:["Windows Explorer","Microsoft Store","Microsoft Edge WebView2","Azure Services"],a:2},
-{q:"The Quick Settings Panel opens using which shortcut?",o:["Win + X","Win + S","Win + A","Ctrl + A"],a:2},
-{q:"Which feature arranges windows into preset grid layouts?",o:["Virtual Desktop","Snap Layouts","Task View","Widgets"],a:1},
-{q:"Minimum display requirement for Windows 11?",o:["7-inch 720p","9-inch 720p","10-inch 1080p","8-inch 1080p"],a:1},
-{q:"Which built-in app is deprecated in Windows 11?",o:["Paint","WordPad","Internet Explorer","Calculator"],a:2},
-{q:"What can be pinned to the Taskbar?",o:["Folders","Files","Apps","Printers"],a:2},
-{q:"New File Explorer feature in Windows 11?",o:["Gadgets","Tabs","Tiles","Cortana"],a:1},
-{q:"Recommended section shows?",o:["System tools","Control Panel","Recently used files and apps","Background services"],a:2},
-{q:"Which does NOT run in Windows Terminal?",o:["PowerShell","Command Prompt","Azure Cloud Shell","MS-DOS"],a:3},
-{q:"Primary function of Secure Boot?",o:["Increase speed","Encrypt disk","Prevent unauthorized booting","Enable virtualization"],a:2},
-{q:"Magnifier shortcut?",o:["Win + M","Win + Plus","Ctrl + Plus","Alt + Plus"],a:1},
-{q:"Component syncing settings across devices?",o:["OneDrive","Microsoft Account","Azure AD","Local Account"],a:1},
-{q:"File Explorer Home contains?",o:["System folders","Hidden files","Recent files and Quick access","Installed apps"],a:2},
-{q:"Feature replacing Live Tiles?",o:["Task View","Widgets","Snap Groups","Copilot"],a:1},
-{q:"TPM 2.0 required for?",o:["Task Manager","Windows Hello","Notepad","Paint"],a:1},
-{q:"BitLocker available in which edition?",o:["Home","Pro","SE","S"],a:1},
-{q:"Default Windows file system?",o:["FAT32","exFAT","NTFS","EXT4"],a:2},
-{q:"Start Menu mainly contains?",o:["Live tiles","Widgets","Pinned apps and Recommended","Control Panel"],a:2},
-{q:"Tool to manage users and groups?",o:["Settings","Task Manager","Computer Management","Registry"],a:2},
-{q:"Windows Terminal shortcut?",o:["Win + T","Win + R","Win + X → Terminal","Ctrl + Shift + T"],a:2},
-{q:"Tool that reads screen aloud?",o:["Speech Recognition","Magnifier","Narrator","Live Captions"],a:2},
-{q:"Windows Terminal supports?",o:["Single shell","Tabs and multiple shells","MS-DOS only","GUI apps only"],a:1},
-{q:"Tool for hearing impaired?",o:["Narrator","Magnifier","Live Captions","High Contrast"],a:2},
-{q:"Snap Groups help in?",o:["Disk cleanup","Window grouping","User management","Power optimization"],a:1},
-{q:"Screenshot + recording tool?",o:["Paint","Game Bar","Snipping Tool","Photos"],a:2},
-{q:"Action Center replaced by?",o:["Widgets","Quick Settings","Task View","Control Panel"],a:1},
-{q:"NOT supported architecture?",o:["x64","ARM64","x86 (32-bit)","AMD64"],a:2},
-{q:"Default browser?",o:["Chrome","Firefox","Edge","Opera"],a:2},
-{q:"Clipboard history feature?",o:["Clipboard History","File History","Task View","OneDrive"],a:0},
-{q:"Hide file extensions using?",o:["View menu","File Explorer Options","Disk Cleanup","Registry"],a:1},
-{q:"Real-time protection tool?",o:["Firewall","BitLocker","Windows Defender","Secure Boot"],a:2},
-{q:"Required partition style?",o:["FAT","MBR","GPT","EXT"],a:2},
-{q:"NOT a user account type?",o:["Administrator","Standard","Guest","Microsoft"],a:2},
-{q:"Startup apps location?",o:["Control Panel","Settings","Task Manager Startup","Registry"],a:2},
-{q:"AI suggestions feature?",o:["Cortana","Widgets","Copilot","Bing"],a:2},
-{q:"Share option allows?",o:["Bluetooth","Email","Nearby Share & apps","OneDrive"],a:2},
-{q:"System Information command?",o:["sysinfo","dxdiag","msinfo32","system"],a:2},
-{q:"High Contrast helps?",o:["Hearing loss","Low vision","Speech","Memory"],a:1},
-{q:"Isolated environment feature?",o:["BitLocker","Secure Boot","Windows Sandbox","Firewall"],a:2},
-{q:"Settings categories count?",o:["9","10","11","12"],a:2},
-{q:"India digital identity?",o:["PAN","DigiLocker","Aadhaar","UPI"],a:2},
-{q:"Minimum RAM?",o:["2 GB","3 GB","4 GB","8 GB"],a:2},
-{q:"Basic driver boot mode?",o:["Clean Boot","Safe Mode","Fast Startup","Secure Boot"],a:1},
-{q:"Virtual Desktop shortcut?",o:["Win + D","Win + Ctrl + D","Win + Tab","Alt + Tab"],a:2},
-{q:"Adjust text size only?",o:["Scaling","Text Size","Magnifier","High Contrast"],a:1},
-{q:"Focus Sessions purpose?",o:["Clean memory","Improve productivity","Block apps","Manage files"],a:1},
-{q:"Windows Hello supports?",o:["Password","PIN","Face, fingerprint, PIN","OTP"],a:2},
-{q:"Snap Assist activates when?",o:["Maximize","Drag to edge","Task View","Alt + Tab"],a:1},
-{q:"Storage Sense does?",o:["Encrypt","Compress","Free disk space","Defrag"],a:2},
-{q:"Widgets panel shortcut?",o:["Win + A","Win + W","Win + S","Win + X"],a:1},
-{q:"Mandatory Windows 11 requirement?",o:["SSD","Internet","TPM 2.0","GPU"],a:2},
-{q:"File Explorer new feature?",o:["Gadgets","Tabs","Tiles","Copilot"],a:1},
-{q:"Settings shortcut?",o:["Win + S","Win + R","Win + I","Win + A"],a:2},
-{q:"Speech Recognition used for?",o:["Reading","Zoom","Voice control","Captions"],a:2},
-{q:"Quick Settings purpose?",o:["Apps","Sharing","Wi-Fi, sound, battery","Files"],a:2},
-{q:"Partition management tool?",o:["Device Manager","Disk Cleanup","Disk Management","Explorer"],a:2},
-{q:"Left pane name in Explorer?",o:["Control","Action","Navigation","Menu"],a:2},
-{q:"Automation workflow tool?",o:["Task Scheduler","Power Automate","Copilot","Registry"],a:1},
-{q:"Themes location?",o:["Display","Accounts","Personalization","Control Panel"],a:2},
-{q:"Widgets show?",o:["Apps","News & weather","Processes","Logs"],a:1},
-{q:"Recent files location?",o:["Desktop","Downloads","Explorer Home","OneDrive"],a:2},
-{q:"Taskbar thumbnails called?",o:["Peek","Taskbar previews","Snap view","Tiles"],a:1},
-{q:"Partial zoom tool?",o:["Narrator","Live Captions","Magnifier","Text Size"],a:2},
-{q:"Terminal customization format?",o:["XML","YAML","JSON","INI"],a:2},
+{q:"The “Quick Settings Panel” in Windows 11 opens using which method?",o:["Win + X","Win + S","Win + A","Ctrl + A"],a:2},
+{q:"Which feature is responsible for arranging windows into preset grid layouts?",o:["Virtual Desktop","Snap Layouts","Task View","Widgets"],a:1},
+{q:"The minimum display requirement for installing Windows 11 is:",o:["7-inch display with 720p resolution","9-inch display with 720p resolution","10-inch display with 1080p resolution","8-inch display with 1080p resolution"],a:1},
+{q:"Which built-in app is removed or deprecated in Windows 11?",o:["Paint","WordPad","Internet Explorer","Calculator"],a:2},
+{q:"Which of the following can be pinned to the Taskbar in Windows 11?",o:["Folders","Files","Apps","Printers"],a:2},
+{q:"Windows 11 File Explorer includes which new feature?",o:["Gadgets","Tabs","Tiles","Cortana"],a:1},
+{q:"The “Recommended Section” in Start Menu mainly displays:",o:["System tools","Control Panel links","Recently used files and apps","Background services"],a:2},
+{q:"Which command-line interface does NOT run inside Windows Terminal?",o:["PowerShell","Command Prompt","Azure Cloud Shell","MS-DOS"],a:3},
+{q:"What is the primary function of Secure Boot?",o:["Increase boot speed","Encrypt disk data","Prevents unauthorized booting","Enable virtualization"],a:2},
+
+{q:"Magnifier can be activated using which shortcut?",o:["Win + M","Win + Plus (+)","Ctrl + Plus","Alt + Plus"],a:1},
+{q:"Which component allows cloud syncing of settings and personalization?",o:["OneDrive","Microsoft Account","Azure AD","Local Account"],a:1},
+{q:"File Explorer’s Home section contains:",o:["System folders","Hidden files","Recent files and Quick access","Installed apps"],a:2},
+{q:"Windows 11 feature replaces Live Tiles:",o:["Task View","Widgets","Snap Groups","Copilot"],a:1},
+{q:"Which Windows 11 component requires TPM 2.0 to function correctly?",o:["Task Manager","Windows Hello","Notepad","Paint"],a:1},
+{q:"Which edition of Windows 11 includes BitLocker and Group Policy Editor?",o:["Windows 11 Home","Windows 11 Pro","Windows 11 SE","Windows 11 S"],a:1},
+{q:"Which file system does Windows 11 primarily use for system drives?",o:["FAT32","exFAT","NTFS","EXT4"],a:2},
+{q:"In Windows 11, the Start Menu mainly consists of:",o:["Live tiles","Widgets only","Pinned apps and Recommended section","Control Panel shortcuts"],a:2},
+{q:"Which tool is used to manage local users and groups in Windows 11 Pro?",o:["Settings","Task Manager","Computer Management","Registry Editor"],a:2},
+{q:"Shortcut to open Windows Terminal:",o:["Win + T","Win + R","Win + X → Windows Terminal","Ctrl + Shift + T"],a:2},
+
+{q:"Which accessibility tool reads the content of the screen aloud?",o:["Speech Recognition","Magnifier","Narrator","Live Captions"],a:2},
+{q:"Windows Terminal supports which of the following features?",o:["Single shell","Tabs and multiple shells","MS-DOS only","GUI apps only"],a:1},
+{q:"Which Windows 11 tool helps users with hearing impairments?",o:["Narrator","Magnifier","Live Captions","High Contrast"],a:2},
+{q:"Snap Groups help in:",o:["Disk cleanup","Organizing and restoring grouped windows","User management","Power optimization"],a:1},
+{q:"Which app in Windows 11 provides screenshot and screen recording in one place?",o:["Paint","Game Bar","Snipping Tool","Photos"],a:2},
+{q:"Which Windows 11 component replaced the old Action Center?",o:["Widgets","Quick Settings","Task View","Control Panel"],a:1},
+{q:"Which processor architecture is NOT supported by Windows 11?",o:["x64","ARM64","32-bit (x86)","AMD64"],a:2},
+{q:"Windows 11’s default browser is:",o:["Chrome","Firefox","Microsoft Edge","Opera"],a:2},
+{q:"Which feature enables copy-paste history up to 25 items?",o:["Clipboard History","File History","Task View","OneDrive"],a:0},
+{q:"Which option in File Explorer hides file extensions?",o:["View menu","File Explorer Options","Disk Cleanup","Registry Editor"],a:1},
+
+{q:"Which Windows feature provides real-time threat protection?",o:["Firewall","BitLocker","Windows Security (Defender)","Secure Boot"],a:2},
+{q:"The default partition style required for Windows 11 booting is:",o:["FAT","MBR","GPT","EXT"],a:2},
+{q:"Which of the following is NOT a type of user account?",o:["Administrator","Standard","Guest account","Microsoft"],a:2},
+{q:"Where can users manage startup applications?",o:["Control Panel","Settings","Task Manager → Startup tab","Registry"],a:2},
+{q:"Which feature provides AI-based suggestions inside Windows 11?",o:["Cortana","Widgets","Copilot","Bing"],a:2},
+{q:"File Explorer’s “Share” option allows sharing files through:",o:["Bluetooth only","Email only","Nearby Share, apps, and email","OneDrive only"],a:2},
+{q:"Which command opens System Information quickly?",o:["sysinfo","dxdiag","msinfo32","system"],a:2},
+{q:"High Contrast mode mainly helps users with:",o:["Hearing loss","Low vision","Speech issues","Memory issues"],a:1},
+{q:"Which feature ensures apps run in isolated environments for security?",o:["BitLocker","Secure Boot","Windows Sandbox","Firewall"],a:2},
+{q:"The Settings app in Windows 11 is organized into how many main categories?",o:["9","10","11","12"],a:2},
+
+{q:"Which identity layer of India Stack is used in Windows for digital authentication?",o:["PAN","DigiLocker","Aadhaar","UPI"],a:2},
+{q:"What is the minimum RAM required to install Windows 11?",o:["2 GB","3 GB","4 GB","8 GB"],a:2},
+{q:"Which startup option allows loading Windows with basic drivers only?",o:["Clean Boot","Safe Mode","Fast Startup","Secure Boot"],a:1},
+{q:"Windows 11’s Virtual Desktops can be accessed using which shortcut?",o:["Win + D","Win + Ctrl + D","Win + Tab","Alt + Tab"],a:2},
+{q:"Which accessibility setting allows adjusting text size without scaling display?",o:["Scaling","Text Size","Magnifier","High Contrast"],a:1},
+{q:"What is the function of the “Focus Sessions” feature?",o:["Clean memory","Improves focus and productivity","Block apps","Manage files"],a:1},
+{q:"Windows Hello provides authentication using:",o:["Password only","PIN only","Face, fingerprint, or PIN","OTP"],a:2},
+{q:"Snap Assist activates after:",o:["Maximizing window","Dragging a window to the screen edge","Opening Task View","Pressing Alt + Tab"],a:1},
+{q:"The “Storage Sense” feature is used to:",o:["Encrypt disk","Compress files","Automatically free disk space","Defragment drive"],a:2},
+{q:"The Widgets Panel opens using which shortcut?",o:["Win + A","Win + W","Win + S","Win + X"],a:1},
+
+{q:"Which of the following is a mandatory requirement for installing Windows 11?",o:["SSD","Internet","TPM 2.0","GPU"],a:2},
+{q:"Which feature replaces Live Tiles in Windows 11?",o:["Widgets","Snap Groups","Copilot","Task View"],a:0},
+{q:"Which feature arranges windows into predefined layouts?",o:["Virtual Desktop","Snap Layouts","Task View","Widgets"],a:1},
+{q:"Which accessibility tool reads text aloud?",o:["Speech Recognition","Magnifier","Narrator","Live Captions"],a:2},
+{q:"Which is NOT supported in Windows Terminal?",o:["PowerShell","Command Prompt","Linux GUI apps","Azure Shell"],a:2},
+{q:"User accounts are managed under:",o:["Control Panel","Settings → Accounts","Task Manager","Registry"],a:1},
+{q:"Magnifier is used to:",o:["Read text","Zoom parts of the screen","Change contrast","Dictate text"],a:1},
+{q:"Running apps appear in:",o:["Start Menu","Taskbar","Widgets","Control Panel"],a:1},
+{q:"Default file system used for internal drives:",o:["FAT32","exFAT","NTFS","EXT3"],a:2},
+{q:"Which built-in app is used for managing email and calendar?",o:["Outlook","Mail","Calendar","OneNote"],a:1},
+
+{q:"Wallpaper and theme settings can be found in:",o:["Settings → Display","Settings → Personalization","Control Panel","File Explorer"],a:1},
+{q:"What allows you to move Start Menu alignment to the left?",o:["Registry Editor","Taskbar settings","Control Panel","Group Policy"],a:1},
+{q:"New feature in File Explorer is:",o:["Gadgets","Tabs","Tiles","Copilot"],a:1},
+{q:"Shortcut to open Settings:",o:["Win + S","Win + R","Win + I","Win + A"],a:2},
+{q:"Speech Recognition helps with:",o:["Reading text","Zooming screen","Voice control and dictation","Captions"],a:2},
+{q:"Purpose of Quick Settings:",o:["App launching","Network sharing","Quick access to Wi-Fi, sound, and battery","File sharing"],a:2},
+{q:"Tool for drive and partition management:",o:["Device Manager","Disk Cleanup","Disk Management","File Explorer"],a:2},
+{q:"Left pane in File Explorer is called:",o:["Control Pane","Action Pane","Navigation Pane","Menu Pane"],a:2},
+{q:"Automation or custom shortcuts tool in Windows 11:",o:["Task Scheduler","Power Automate","Copilot","Registry Editor"],a:1},
+{q:"Themes can be changed under:",o:["Settings → Display","Settings → Accounts","Settings → Personalization","Control Panel"],a:2},
+
+{q:"Widgets show:",o:["Installed apps","News, weather, calendar, and updates","Running processes","System logs"],a:1},
+{q:"Recently used files are found in:",o:["Desktop","Downloads","File Explorer → Home","OneDrive"],a:2},
+{q:"Thumbnail previews on the taskbar are called:",o:["Peek view","Taskbar previews","Snap view","Widget tiles"],a:1},
+{q:"Partial screen zoom tool:",o:["Narrator","Live Captions","Magnifier","Text Size"],a:2},
+{q:"Windows Terminal uses which format for customization?",o:["XML","YAML","JSON","INI"],a:2}
 ];
 
-const form = document.getElementById("quizForm");
+let idx=0,score=0,wrong=[];
 
-questions.forEach((q,i)=>{
-  const div=document.createElement("div");
-  div.className="question";
-  div.innerHTML=`<div class="q-title">${i+1}. ${q.q}</div>`;
-  const opts=document.createElement("div");
-  opts.className="options";
-  q.o.forEach((op,idx)=>{
-    opts.innerHTML+=`
-    <label>
-      <input type="radio" name="q${i}" value="${idx}"> ${op}
-    </label>`;
+function render(){
+  const q=questions[idx];
+  let html=`<div class="qno">Question ${idx+1} / ${questions.length}</div>
+            <div class="question">${q.q}</div>`;
+  q.o.forEach((op,i)=>{
+    html+=`<div class="option" onclick="choose(${i})">${op}</div>`;
   });
-  div.appendChild(opts);
-  form.appendChild(div);
-});
-
-function submitTest(){
-  let score=0, answered=0;
-  questions.forEach((q,i)=>{
-    const sel=document.querySelector(`input[name="q${i}"]:checked`);
-    if(sel){
-      answered++;
-      if(Number(sel.value)===q.a) score++;
-    }
-  });
-
-  const percent=((score/questions.length)*100).toFixed(2);
-  document.getElementById("resultBox").style.display="block";
-  document.getElementById("resultBox").innerHTML=`
-    <div class="score">Score: ${score} / ${questions.length}</div>
-    <div class="good">Correct: ${score}</div>
-    <div class="bad">Wrong: ${answered-score}</div>
-    <div class="note">Percentage: ${percent}%</div>
-  `;
-  window.scrollTo({top:0,behavior:"smooth"});
+  document.getElementById("quiz").innerHTML=html;
 }
+
+function choose(i){
+  const q=questions[idx];
+  const opts=document.querySelectorAll(".option");
+  opts.forEach(o=>o.onclick=null);
+
+  if(i===q.a){
+    opts[i].classList.add("correct");
+    score++;
+  }else{
+    opts[i].classList.add("wrong");
+    opts[q.a].classList.add("correct");
+    wrong.push({no:idx+1,q:q.q,ans:q.o[q.a]});
+  }
+
+  document.getElementById("quiz").innerHTML+=
+    `<button class="btn" onclick="next()">Next</button>`;
+}
+
+function next(){
+  idx++;
+  if(idx<questions.length) render();
+  else showResult();
+}
+
+function showResult(){
+  document.getElementById("quiz").style.display="none";
+  let html=`<h2>Final Result</h2>
+  <p class="good">Score: ${score} / ${questions.length}</p>
+  <p class="bad">Wrong: ${wrong.length}</p><hr>`;
+  wrong.forEach(w=>{
+    html+=`<p><b>Q${w.no}:</b> ${w.q}<br>
+    <span class="good">Correct:</span> ${w.ans}</p>`;
+  });
+  document.getElementById("result").innerHTML=html;
+  document.getElementById("result").style.display="block";
+}
+
+render();
 </script>
 </body>
 </html>
