@@ -33,14 +33,8 @@ body{
   align-items:center;
   margin-bottom:18px;
 }
-.qno{
-  font-size:14px;
-  opacity:.85;
-}
-.timer{
-  font-weight:700;
-  font-size:16px;
-}
+.qno{font-size:14px;opacity:.85}
+.timer{font-weight:700;font-size:16px}
 .question{
   font-size:20px;
   font-weight:700;
@@ -52,18 +46,11 @@ body{
   border-radius:8px;
   margin-bottom:12px;
   cursor:pointer;
-  transition:.15s;
 }
 .option:hover{background:#111}
 .option.disabled{pointer-events:none;opacity:.7}
-.correct{
-  background:#0a0;
-  border-color:#0a0;
-}
-.wrong{
-  background:#a00;
-  border-color:#a00;
-}
+.correct{background:#0a0;border-color:#0a0}
+.wrong{background:#a00;border-color:#a00}
 .btn{
   margin-top:20px;
   width:100%;
@@ -82,18 +69,9 @@ body{
   padding:30px;
   text-align:center;
 }
-.result h1{
-  margin:0 0 10px;
-  font-size:32px;
-}
-.big{
-  font-size:22px;
-  margin:10px 0;
-}
-.list{
-  text-align:left;
-  margin-top:20px;
-}
+.result h1{font-size:32px;margin:0}
+.big{font-size:22px;margin:10px 0}
+.list{text-align:left;margin-top:20px}
 hr{border:0;border-top:1px solid #333;margin:20px 0}
 </style>
 </head>
@@ -105,7 +83,7 @@ hr{border:0;border-top:1px solid #333;margin:20px 0}
 </div>
 
 <script>
-/* QUESTIONS (UNCHANGED CONTENT) */
+/* ================= QUESTIONS ================= */
 const questions = [
 {q:"Widgets in Windows 11 are powered primarily by which service?",o:["Windows Explorer","Microsoft Store","Microsoft Edge WebView2","Azure Services"],a:2},
 {q:"The “Quick Settings Panel” in Windows 11 opens using which method?",o:["Win + X","Win + S","Win + A","Ctrl + A"],a:2},
@@ -191,40 +169,57 @@ const questions = [
 {q:"Windows Terminal uses which format for customization?",o:["XML","YAML","JSON","INI"],a:2}
 ];
 
-/* STATE */
-let index = 0;
-let answers = new Array(questions.length).fill(null);
-let timer = null;
-let timeLeft = 15;
-let totalTime = 0;
-let locked = false;
+/* ================= SHUFFLE UTILS ================= */
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+}
 
-/* RENDER */
+/* Shuffle questions ONCE */
+shuffle(questions);
+
+/* ================= STATE ================= */
+let index=0;
+let answers=[];
+let timer=null;
+let timeLeft=15;
+let totalTime=0;
+let locked=false;
+
+/* ================= RENDER ================= */
 function render(){
-  locked = false;
-  timeLeft = 15;
-  const q = questions[index];
+  locked=false;
+  timeLeft=15;
 
-  document.getElementById("quiz").innerHTML = `
+  let qObj = questions[index];
+
+  /* shuffle options safely */
+  let opts=[...qObj.o];
+  shuffle(opts);
+  qObj.shuffledOpts = opts;
+  qObj.correctIndex = opts.indexOf(qObj.a);
+
+  document.getElementById("quiz").innerHTML=`
     <div class="top">
       <div class="qno">Question ${index+1} / ${questions.length}</div>
       <div class="timer" id="timer">⏱ 15s</div>
     </div>
-    <div class="question">${q.q}</div>
-    ${q.o.map((op,i)=>`<div class="option" onclick="select(${i})">${op}</div>`).join("")}
+    <div class="question">${qObj.q}</div>
+    ${opts.map((op,i)=>`<div class="option" onclick="select(${i})">${op}</div>`).join("")}
   `;
 
   startTimer();
 }
 
-/* TIMER */
+/* ================= TIMER ================= */
 function startTimer(){
   clearInterval(timer);
-  timer = setInterval(()=>{
+  timer=setInterval(()=>{
     timeLeft--;
     totalTime++;
-    document.getElementById("timer").textContent = `⏱ ${timeLeft}s`;
-
+    document.getElementById("timer").textContent=`⏱ ${timeLeft}s`;
     if(timeLeft<=0){
       clearInterval(timer);
       autoFail();
@@ -232,73 +227,74 @@ function startTimer(){
   },1000);
 }
 
-/* AUTO FAIL */
+/* ================= AUTO FAIL ================= */
 function autoFail(){
   if(locked) return;
-  locked = true;
-  answers[index] = -1;
+  locked=true;
+  answers[index]=-1;
 
-  const opts = document.querySelectorAll(".option");
+  const opts=document.querySelectorAll(".option");
   opts.forEach(o=>o.classList.add("disabled"));
-  opts[questions[index].a].classList.add("correct");
+  opts[questions[index].correctIndex].classList.add("correct");
 
   document.getElementById("quiz").insertAdjacentHTML(
-    "beforeend",
-    `<button class="btn" onclick="next()">Next</button>`
+    "beforeend",`<button class="btn" onclick="next()">Next</button>`
   );
 }
 
-/* SELECT */
+/* ================= SELECT ================= */
 function select(i){
   if(locked) return;
-  locked = true;
+  locked=true;
   clearInterval(timer);
 
-  answers[index] = i;
-  const q = questions[index];
-  const opts = document.querySelectorAll(".option");
+  answers[index]=i;
+  const q=questions[index];
+  const opts=document.querySelectorAll(".option");
   opts.forEach(o=>o.classList.add("disabled"));
 
-  if(i===q.a) opts[i].classList.add("correct");
-  else{
+  if(i===q.correctIndex){
+    opts[i].classList.add("correct");
+  }else{
     opts[i].classList.add("wrong");
-    opts[q.a].classList.add("correct");
+    opts[q.correctIndex].classList.add("correct");
   }
 
   document.getElementById("quiz").insertAdjacentHTML(
-    "beforeend",
-    `<button class="btn" onclick="next()">Next</button>`
+    "beforeend",`<button class="btn" onclick="next()">Next</button>`
   );
 }
 
-/* NEXT */
+/* ================= NEXT ================= */
 function next(){
   index++;
   if(index<questions.length) render();
   else showResult();
 }
 
-/* RESULT */
+/* ================= RESULT ================= */
 function showResult(){
   clearInterval(timer);
-  let score=0,wrong=[];
-  answers.forEach((a,i)=>{
-    if(a===questions[i].a) score++;
-    else wrong.push({no:i+1,q:questions[i].q,ans:questions[i].o[questions[i].a]});
-  });
+  let score=0;
+  let wrong=[];
 
-  let feedback =
-    totalTime <= questions.length*10 ? "Excellent speed – interview ready" :
-    totalTime <= questions.length*15 ? "Good speed – needs slight improvement" :
-    "Slow – practice timed tests";
+  questions.forEach((q,i)=>{
+    if(answers[i]===q.correctIndex) score++;
+    else wrong.push({no:i+1,q:q.q,ans:q.a});
+  });
 
   document.getElementById("quiz").style.display="none";
   document.getElementById("result").style.display="block";
 
-  document.getElementById("result").innerHTML = `
+  let feedback =
+    totalTime<=questions.length*10 ? "Excellent speed – interview ready" :
+    totalTime<=questions.length*15 ? "Good speed – needs improvement" :
+    "Slow – practice timed tests";
+
+  document.getElementById("result").innerHTML=`
     <h1>Final Result</h1>
     <div class="big">Score: ${score} / ${questions.length}</div>
-    <div class="big">Total Time: ${totalTime}s</div>
+    <div class="big">Time Taken: ${totalTime}s</div>
     <div class="big">${feedback}</div>
     <hr>
     <div class="list">
