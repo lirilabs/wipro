@@ -2,26 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>WIPRO Windows 11 – Step Test</title>
+<title>WIPRO Windows 11 – Mock Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
   margin:0;
   font-family:system-ui,Segoe UI;
-  background:#0f172a;
+  background:linear-gradient(180deg,#020617,#0f172a);
   color:#e5e7eb;
 }
 .container{
-  max-width:700px;
+  max-width:760px;
   margin:auto;
   padding:20px;
 }
 .card{
   background:#020617;
   border:1px solid #1e293b;
-  border-radius:14px;
-  padding:20px;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+.progress{
+  height:6px;
+  background:#1e293b;
+  border-radius:6px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.progress span{
+  display:block;
+  height:100%;
+  background:#2563eb;
 }
 .qno{
   color:#94a3b8;
@@ -29,47 +42,47 @@ body{
 }
 .question{
   font-size:18px;
-  font-weight:600;
-  margin-bottom:14px;
+  font-weight:700;
+  margin-bottom:18px;
 }
 .option{
-  padding:10px;
+  padding:12px;
   border:1px solid #334155;
-  border-radius:10px;
+  border-radius:12px;
   margin-bottom:10px;
   cursor:pointer;
+  transition:.2s;
 }
-.option:hover{
-  background:#020617;
+.option:hover{background:#020617}
+.option.disabled{
+  pointer-events:none;
+  opacity:.85;
 }
 .correct{
   border-color:#22c55e;
-  background:#022c22;
+  background:#052e1a;
 }
 .wrong{
   border-color:#ef4444;
   background:#2a0606;
 }
-.feedback{
-  margin-top:12px;
-  font-weight:600;
-}
 .btn{
   margin-top:18px;
   width:100%;
-  padding:12px;
+  padding:14px;
   background:#2563eb;
   color:#fff;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   font-size:16px;
+  font-weight:700;
   cursor:pointer;
 }
 .result-card{
   background:#020617;
   border:1px solid #1e293b;
-  border-radius:14px;
-  padding:20px;
+  border-radius:16px;
+  padding:24px;
 }
 .good{color:#22c55e}
 .bad{color:#ef4444}
@@ -78,11 +91,8 @@ body{
 
 <body>
 <div class="container">
-
-<div id="quiz" class="card"></div>
-
-<div id="result" class="result-card" style="display:none"></div>
-
+  <div id="quiz" class="card"></div>
+  <div id="result" class="result-card" style="display:none"></div>
 </div>
 
 <script>
@@ -171,55 +181,100 @@ const questions = [
 {q:"Windows Terminal uses which format for customization?",o:["XML","YAML","JSON","INI"],a:2}
 ];
 
-let idx=0,score=0,wrong=[];
+// ===== STATE =====
+let index = 0;
+let answered = false;
+const userAnswers = new Array(questions.length).fill(null);
 
+// ===== RENDER QUESTION =====
 function render(){
-  const q=questions[idx];
-  let html=`<div class="qno">Question ${idx+1} / ${questions.length}</div>
-            <div class="question">${q.q}</div>`;
+  answered = false;
+  const q = questions[index];
+  let html = `
+    <div class="progress">
+      <span style="width:${(index/questions.length)*100}%"></span>
+    </div>
+    <div class="qno">Question ${index+1} / ${questions.length}</div>
+    <div class="question">${q.q}</div>
+  `;
+
   q.o.forEach((op,i)=>{
-    html+=`<div class="option" onclick="choose(${i})">${op}</div>`;
+    html += `<div class="option" data-i="${i}" onclick="selectOption(${i})">${op}</div>`;
   });
-  document.getElementById("quiz").innerHTML=html;
+
+  document.getElementById("quiz").innerHTML = html;
 }
 
-function choose(i){
-  const q=questions[idx];
-  const opts=document.querySelectorAll(".option");
-  opts.forEach(o=>o.onclick=null);
+// ===== OPTION SELECT =====
+function selectOption(i){
+  if(answered) return;   // 🔒 PREVENT MULTI-CLICK
+  answered = true;
 
-  if(i===q.a){
+  userAnswers[index] = i;
+  const q = questions[index];
+  const opts = document.querySelectorAll(".option");
+
+  opts.forEach(o=>{
+    o.classList.add("disabled");
+    o.onclick = null;
+  });
+
+  if(i === q.a){
     opts[i].classList.add("correct");
-    score++;
   }else{
     opts[i].classList.add("wrong");
     opts[q.a].classList.add("correct");
-    wrong.push({no:idx+1,q:q.q,ans:q.o[q.a]});
   }
 
-  document.getElementById("quiz").innerHTML+=
-    `<button class="btn" onclick="next()">Next</button>`;
+  // ✅ SINGLE NEXT BUTTON
+  document.getElementById("quiz").insertAdjacentHTML(
+    "beforeend",
+    `<button class="btn" onclick="next()">Next</button>`
+  );
 }
 
+// ===== NEXT =====
 function next(){
-  idx++;
-  if(idx<questions.length) render();
-  else showResult();
+  index++;
+  if(index < questions.length){
+    render();
+  }else{
+    showResult();
+  }
 }
 
+// ===== RESULT =====
 function showResult(){
-  document.getElementById("quiz").style.display="none";
-  let html=`<h2>Final Result</h2>
-  <p class="good">Score: ${score} / ${questions.length}</p>
-  <p class="bad">Wrong: ${wrong.length}</p><hr>`;
-  wrong.forEach(w=>{
-    html+=`<p><b>Q${w.no}:</b> ${w.q}<br>
-    <span class="good">Correct:</span> ${w.ans}</p>`;
+  let score = 0;
+  let wrong = [];
+
+  questions.forEach((q,i)=>{
+    if(userAnswers[i] === q.a) score++;
+    else wrong.push({no:i+1,q:q.q,ans:q.o[q.a]});
   });
-  document.getElementById("result").innerHTML=html;
+
+  document.getElementById("quiz").style.display="none";
+
+  let html = `
+    <h2>Final Result</h2>
+    <p class="good"><b>Score:</b> ${score} / ${questions.length}</p>
+    <p class="bad"><b>Wrong:</b> ${wrong.length}</p>
+    <p><b>Percentage:</b> ${((score/questions.length)*100).toFixed(2)}%</p>
+    <hr>
+  `;
+
+  wrong.forEach(w=>{
+    html += `
+      <p><b>Q${w.no}:</b> ${w.q}<br>
+      <span class="good">Correct:</span> ${w.ans}</p>
+    `;
+  });
+
+  document.getElementById("result").innerHTML = html;
   document.getElementById("result").style.display="block";
 }
 
+// START
 render();
 </script>
 </body>
