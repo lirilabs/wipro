@@ -2,100 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>WIPRO Windows 11 – Mock Test</title>
+<title>WIPRO Windows 11 – Timed Mock Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,Segoe UI;
-  background:linear-gradient(180deg,#020617,#0f172a);
-  color:#e5e7eb;
+  background:#000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
 }
 .container{
+  width:100%;
   max-width:760px;
-  margin:auto;
   padding:20px;
 }
 .card{
-  background:#020617;
-  border:1px solid #1e293b;
-  border-radius:16px;
-  padding:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  border:1px solid #fff;
+  border-radius:10px;
+  padding:26px;
 }
-.progress{
-  height:6px;
-  background:#1e293b;
-  border-radius:6px;
-  overflow:hidden;
-  margin-bottom:16px;
-}
-.progress span{
-  display:block;
-  height:100%;
-  background:#2563eb;
-}
-.qno{
-  color:#94a3b8;
-  margin-bottom:6px;
-}
-.question{
-  font-size:18px;
-  font-weight:700;
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   margin-bottom:18px;
 }
-.option{
-  padding:12px;
-  border:1px solid #334155;
-  border-radius:12px;
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:.2s;
-}
-.option:hover{background:#020617}
-.option.disabled{
-  pointer-events:none;
+.qno{
+  font-size:14px;
   opacity:.85;
 }
+.timer{
+  font-weight:700;
+  font-size:16px;
+}
+.question{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+.option{
+  padding:14px;
+  border:1px solid #fff;
+  border-radius:8px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:.15s;
+}
+.option:hover{background:#111}
+.option.disabled{pointer-events:none;opacity:.7}
 .correct{
-  border-color:#22c55e;
-  background:#052e1a;
+  background:#0a0;
+  border-color:#0a0;
 }
 .wrong{
-  border-color:#ef4444;
-  background:#2a0606;
+  background:#a00;
+  border-color:#a00;
 }
 .btn{
-  margin-top:18px;
+  margin-top:20px;
   width:100%;
   padding:14px;
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  border-radius:12px;
   font-size:16px;
   font-weight:700;
+  background:#fff;
+  color:#000;
+  border:none;
+  border-radius:8px;
   cursor:pointer;
 }
-.result-card{
-  background:#020617;
-  border:1px solid #1e293b;
-  border-radius:16px;
-  padding:24px;
+.result{
+  border:1px solid #fff;
+  border-radius:10px;
+  padding:30px;
+  text-align:center;
 }
-.good{color:#22c55e}
-.bad{color:#ef4444}
+.result h1{
+  margin:0 0 10px;
+  font-size:32px;
+}
+.big{
+  font-size:22px;
+  margin:10px 0;
+}
+.list{
+  text-align:left;
+  margin-top:20px;
+}
+hr{border:0;border-top:1px solid #333;margin:20px 0}
 </style>
 </head>
 
 <body>
 <div class="container">
   <div id="quiz" class="card"></div>
-  <div id="result" class="result-card" style="display:none"></div>
+  <div id="result" class="result" style="display:none"></div>
 </div>
 
 <script>
+/* QUESTIONS (UNCHANGED CONTENT) */
 const questions = [
 {q:"Widgets in Windows 11 are powered primarily by which service?",o:["Windows Explorer","Microsoft Store","Microsoft Edge WebView2","Azure Services"],a:2},
 {q:"The “Quick Settings Panel” in Windows 11 opens using which method?",o:["Win + X","Win + S","Win + A","Ctrl + A"],a:2},
@@ -181,100 +191,123 @@ const questions = [
 {q:"Windows Terminal uses which format for customization?",o:["XML","YAML","JSON","INI"],a:2}
 ];
 
-// ===== STATE =====
+/* STATE */
 let index = 0;
-let answered = false;
-const userAnswers = new Array(questions.length).fill(null);
+let answers = new Array(questions.length).fill(null);
+let timer = null;
+let timeLeft = 15;
+let totalTime = 0;
+let locked = false;
 
-// ===== RENDER QUESTION =====
+/* RENDER */
 function render(){
-  answered = false;
+  locked = false;
+  timeLeft = 15;
   const q = questions[index];
-  let html = `
-    <div class="progress">
-      <span style="width:${(index/questions.length)*100}%"></span>
+
+  document.getElementById("quiz").innerHTML = `
+    <div class="top">
+      <div class="qno">Question ${index+1} / ${questions.length}</div>
+      <div class="timer" id="timer">⏱ 15s</div>
     </div>
-    <div class="qno">Question ${index+1} / ${questions.length}</div>
     <div class="question">${q.q}</div>
+    ${q.o.map((op,i)=>`<div class="option" onclick="select(${i})">${op}</div>`).join("")}
   `;
 
-  q.o.forEach((op,i)=>{
-    html += `<div class="option" data-i="${i}" onclick="selectOption(${i})">${op}</div>`;
-  });
-
-  document.getElementById("quiz").innerHTML = html;
+  startTimer();
 }
 
-// ===== OPTION SELECT =====
-function selectOption(i){
-  if(answered) return;   // 🔒 PREVENT MULTI-CLICK
-  answered = true;
+/* TIMER */
+function startTimer(){
+  clearInterval(timer);
+  timer = setInterval(()=>{
+    timeLeft--;
+    totalTime++;
+    document.getElementById("timer").textContent = `⏱ ${timeLeft}s`;
 
-  userAnswers[index] = i;
-  const q = questions[index];
+    if(timeLeft<=0){
+      clearInterval(timer);
+      autoFail();
+    }
+  },1000);
+}
+
+/* AUTO FAIL */
+function autoFail(){
+  if(locked) return;
+  locked = true;
+  answers[index] = -1;
+
   const opts = document.querySelectorAll(".option");
+  opts.forEach(o=>o.classList.add("disabled"));
+  opts[questions[index].a].classList.add("correct");
 
-  opts.forEach(o=>{
-    o.classList.add("disabled");
-    o.onclick = null;
-  });
-
-  if(i === q.a){
-    opts[i].classList.add("correct");
-  }else{
-    opts[i].classList.add("wrong");
-    opts[q.a].classList.add("correct");
-  }
-
-  // ✅ SINGLE NEXT BUTTON
   document.getElementById("quiz").insertAdjacentHTML(
     "beforeend",
     `<button class="btn" onclick="next()">Next</button>`
   );
 }
 
-// ===== NEXT =====
+/* SELECT */
+function select(i){
+  if(locked) return;
+  locked = true;
+  clearInterval(timer);
+
+  answers[index] = i;
+  const q = questions[index];
+  const opts = document.querySelectorAll(".option");
+  opts.forEach(o=>o.classList.add("disabled"));
+
+  if(i===q.a) opts[i].classList.add("correct");
+  else{
+    opts[i].classList.add("wrong");
+    opts[q.a].classList.add("correct");
+  }
+
+  document.getElementById("quiz").insertAdjacentHTML(
+    "beforeend",
+    `<button class="btn" onclick="next()">Next</button>`
+  );
+}
+
+/* NEXT */
 function next(){
   index++;
-  if(index < questions.length){
-    render();
-  }else{
-    showResult();
-  }
+  if(index<questions.length) render();
+  else showResult();
 }
 
-// ===== RESULT =====
+/* RESULT */
 function showResult(){
-  let score = 0;
-  let wrong = [];
-
-  questions.forEach((q,i)=>{
-    if(userAnswers[i] === q.a) score++;
-    else wrong.push({no:i+1,q:q.q,ans:q.o[q.a]});
+  clearInterval(timer);
+  let score=0,wrong=[];
+  answers.forEach((a,i)=>{
+    if(a===questions[i].a) score++;
+    else wrong.push({no:i+1,q:questions[i].q,ans:questions[i].o[questions[i].a]});
   });
+
+  let feedback =
+    totalTime <= questions.length*10 ? "Excellent speed – interview ready" :
+    totalTime <= questions.length*15 ? "Good speed – needs slight improvement" :
+    "Slow – practice timed tests";
 
   document.getElementById("quiz").style.display="none";
-
-  let html = `
-    <h2>Final Result</h2>
-    <p class="good"><b>Score:</b> ${score} / ${questions.length}</p>
-    <p class="bad"><b>Wrong:</b> ${wrong.length}</p>
-    <p><b>Percentage:</b> ${((score/questions.length)*100).toFixed(2)}%</p>
-    <hr>
-  `;
-
-  wrong.forEach(w=>{
-    html += `
-      <p><b>Q${w.no}:</b> ${w.q}<br>
-      <span class="good">Correct:</span> ${w.ans}</p>
-    `;
-  });
-
-  document.getElementById("result").innerHTML = html;
   document.getElementById("result").style.display="block";
+
+  document.getElementById("result").innerHTML = `
+    <h1>Final Result</h1>
+    <div class="big">Score: ${score} / ${questions.length}</div>
+    <div class="big">Total Time: ${totalTime}s</div>
+    <div class="big">${feedback}</div>
+    <hr>
+    <div class="list">
+      ${wrong.map(w=>`<p><b>Q${w.no}:</b> ${w.q}<br><b>Correct:</b> ${w.ans}</p>`).join("")}
+    </div>
+  `;
 }
 
-// START
+/* START */
 render();
 </script>
 </body>
