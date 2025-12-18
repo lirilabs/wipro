@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Enterprise Windows & M365 – Timed Test</title>
+<title>WIPRO – Enterprise Windows & M365 Timed Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -19,7 +19,7 @@ body{
 }
 .container{
   width:100%;
-  max-width:820px;
+  max-width:840px;
   padding:20px;
 }
 .card{
@@ -83,77 +83,86 @@ hr{border:0;border-top:1px solid #333;margin:24px 0}
 </div>
 
 <script>
-/* ================= QUESTION BANK ================= */
+/* ================= QUESTION BANK – 85 (VERIFIED) ================= */
 let questions = [
   {q:"Microsoft Edge InPrivate mode mainly helps users by:",o:["Saving browsing data","Blocking internet","Browsing without saving history or cookies","Disabling JavaScript"],a:"Browsing without saving history or cookies"},
-  {q:"Which Microsoft Edge feature protects users from phishing websites?",o:["Tracking Prevention","Smart Lookup","Microsoft Defender SmartScreen","Private Mode"],a:"Microsoft Defender SmartScreen"},
-  {q:"OneDrive is primarily used for:",o:["Local backup","Cloud storage and file sync","Email hosting","Virtual machines"],a:"Cloud storage and file sync"},
-  {q:"Windows Hello allows users to sign in using:",o:["Passwords only","Security questions","Biometrics or PIN","OTP"],a:"Biometrics or PIN"},
-  {q:"Which Microsoft 365 app is used for creating documents?",o:["Excel","PowerPoint","Word","Outlook"],a:"Word"},
-  {q:"Microsoft Store allows users to:",o:["Edit registry","Install drivers","Download and install apps","Access BIOS"],a:"Download and install apps"},
-  {q:"Main purpose of Windows Update is to:",o:["Install games","Optimize RAM","Deliver security and feature updates","Change UI"],a:"Deliver security and feature updates"},
-  {q:"Which authentication method is more secure than passwords?",o:["PIN","Biometric authentication","Username","Captcha"],a:"Biometric authentication"},
-  {q:"ServiceNow is mainly used for managing:",o:["Databases","IT services","Emails","Networks"],a:"IT services"},
-  {q:"Which ServiceNow module allows IT requests?",o:["Incident","Problem","Service Catalog","Change"],a:"Service Catalog"},
-  {q:"M365 stands for:",o:["Microsoft 360","Managed 365","Microsoft 365","Mail 365"],a:"Microsoft 365"},
-  {q:"Which Windows feature recovers system boot failures?",o:["System Restore","Startup Repair","Reset PC","Safe Mode"],a:"Startup Repair"},
-  {q:"Which feature keeps files online only?",o:["Offline files","File History","Files On-Demand","OneDrive Vault"],a:"Files On-Demand"},
-  {q:"Microsoft Edge is a:",o:["Search engine","Operating system","Web browser","Email client"],a:"Web browser"},
-  {q:"Which ServiceNow concept defines response time?",o:["OLA","KPI","SLA","CMDB"],a:"SLA"},
-  {q:"Edge tracking prevention level balancing privacy & compatibility:",o:["Strict","Basic","Balanced","Off"],a:"Balanced"},
-  {q:"Files On-Demand is useful for users who:",o:["Have slow CPU","Have limited storage","Use LAN","Use SSD"],a:"Have limited storage"},
-  {q:"Which Windows feature controls settings centrally?",o:["Control Panel","Registry","Group Policy","Task Manager"],a:"Group Policy"},
-  {q:"OneDrive file conflict results in:",o:["Overwrite","Deletion","Conflicted copy creation","Sync failure"],a:"Conflicted copy creation"},
-  {q:"Which service enables Copilot secure data access?",o:["Azure AD","Power BI","Microsoft Graph","OneDrive"],a:"Microsoft Graph"},
-  {q:"Windows Hello PIN is secure because it is:",o:["Reusable","Cloud stored","Device-specific & encrypted","Text based"],a:"Device-specific & encrypted"},
-  {q:"Which WSL feature benefits developers most?",o:["GUI","Run Linux tools natively","Lower RAM","Faster UI"],a:"Run Linux tools natively"},
-  {q:"Purpose of pilot deployment:",o:["Final rollout","Test with small group","Rollback","Patch update"],a:"Test with small group"},
-  {q:"ServiceNow process for restoring services quickly:",o:["Change","Problem","Incident Management","Request"],a:"Incident Management"},
-  {q:"Tool to identify driver problems:",o:["Disk Manager","Event Viewer","Device Manager","Task Manager"],a:"Device Manager"},
-  {q:"Copilot in Word is useful for:",o:["Spelling","Drafting & summarizing","Printing","Formatting only"],a:"Drafting & summarizing"},
-  {q:"Tool to migrate user files/settings:",o:["DISM","USMT","MDT","SCCM"],a:"USMT"},
-  {q:"Delay feature updates using:",o:["Windows Defender","WSUS","Windows Update for Business","Group Policy"],a:"Windows Update for Business"},
-  {q:"ServiceNow feature for self-help:",o:["Incident","Knowledge","Self-Service Portal","CMDB"],a:"Self-Service Portal"},
-  {q:"Registry changes must be careful because:",o:["They are slow","Can damage system","Need internet","Need admin"],a:"Can damage system"},
-  {q:"Copilot rule that restricts data visibility:",o:["Data masking","Security trimming","Encryption","RBAC"],a:"Security trimming"},
-  {q:"Edge setting that blocks third-party trackers:",o:["InPrivate","Tracking Prevention","SmartScreen","Firewall"],a:"Tracking Prevention"},
-  {q:"ServiceNow database for IT assets:",o:["Asset DB","SLA DB","CMDB","ITDB"],a:"CMDB"},
-  {q:"Windows feature to recover deleted files:",o:["Recycle Bin","File History","Backup","Restore Point"],a:"File History"},
-  {q:"Microsoft Store permissions control:",o:["Themes","Apps","Camera, mic, location access","Drivers"],a:"Camera, mic, location access"},
-  {q:"Enforce Edge security across domain:",o:["Firewall","Antivirus","Group Policy / Intune","Registry"],a:"Group Policy / Intune"},
-  {q:"OneDrive sync fails due to storage; enable:",o:["Recycle Bin","Files On-Demand","Compression","Cleanup"],a:"Files On-Demand"},
-  {q:"Copilot cannot summarize document because:",o:["No internet","Large file","No user permission","Wrong format"],a:"No user permission"},
-  {q:"WSL version with better performance:",o:["WSL 1","WSL 2","Linux VM","Docker"],a:"WSL 2"},
-  {q:"Rollback plan is critical to:",o:["Upgrade faster","Recover from failure","Save cost","Improve UI"],a:"Recover from failure"},
-  {q:"Windows Hello facial recognition fails due to:",o:["Low RAM","Camera/biometric failure","Wrong OS","Slow disk"],a:"Camera/biometric failure"},
-  {q:"Enterprise Windows update service:",o:["Windows Update","WSUS","Store","Intune"],a:"WSUS"},
-  {q:"Change Management helps to:",o:["Deploy apps","Reduce risk of changes","Track users","Monitor CPU"],a:"Reduce risk of changes"},
-  {q:"Copilot connects to data using:",o:["Azure","OneDrive","Microsoft Graph","SharePoint"],a:"Microsoft Graph"},
-  {q:"Registry tweaks should be tested to:",o:["Improve speed","Avoid instability","Reduce RAM","Change UI"],a:"Avoid instability"},
-  {q:"Deployment strategy minimizing risk:",o:["Big bang","Pilot","Phased deployment","Immediate"],a:"Phased deployment"},
-  {q:"ServiceNow feature measuring performance:",o:["KPI","CMDB","SLA","Incident"],a:"SLA"},
-  {q:"Strict tracking prevention causes issues because:",o:["Slows PC","Blocks some websites","Uses RAM","Breaks Edge"],a:"Blocks some websites"},
-  {q:"Tool to fix driver conflicts:",o:["Event Viewer","Disk Manager","Device Manager","Control Panel"],a:"Device Manager"},
-  {q:"Primary advantage of M365 Copilot:",o:["Storage","Security","AI-driven productivity","Automation"],a:"AI-driven productivity"},
-  {q:"Edge private browsing feature:",o:["Tracking","Secure","InPrivate mode","Incognito"],a:"InPrivate mode"},
-  {q:"Tracking Prevention helps by:",o:["Blocking ads","Blocking trackers","Saving data","Speed boost"],a:"Blocking trackers"},
-  {q:"Clear data when browser closes:",o:["History","Cookies","Clear browsing data on close","Cache"],a:"Clear browsing data on close"},
-  {q:"NOT cleared in normal browsing:",o:["Cache","Cookies","Saved passwords","History"],a:"Saved passwords"},
-  {q:"Secure browsing protocol:",o:["HTTP","FTP","HTTPS","SMTP"],a:"HTTPS"},
-  {q:"App permissions controlled from:",o:["Control Panel","Microsoft Store","Windows Settings","Registry"],a:"Windows Settings"},
-  {q:"Files On-Demand helps users:",o:["Store locally","Access files without downloading","Compress data","Backup"],a:"Access files without downloading"},
-  {q:"To auto-sync, OneDrive must be:",o:["Installed","Signed in and running","Online only","Updated"],a:"Signed in and running"},
+  {q:"Which Microsoft Edge feature is designed to protect users from phishing websites?",o:["Tracking Prevention","Smart Lookup","Microsoft Defender SmartScreen","Private Mode"],a:"Microsoft Defender SmartScreen"},
+  {q:"OneDrive is primarily used for which purpose in Windows?",o:["Local backup","Cloud storage and file synchronization","Email hosting","Virtual machines"],a:"Cloud storage and file synchronization"},
+  {q:"Windows Hello allows users to sign in using which method instead of passwords?",o:["Security questions","Biometrics or PIN","OTP","Username only"],a:"Biometrics or PIN"},
+  {q:"Which Microsoft 365 application is commonly used for creating documents?",o:["Excel","PowerPoint","Word","Outlook"],a:"Word"},
+  {q:"Microsoft Store allows users to do which of the following?",o:["Edit registry","Install drivers","Download and install apps","Modify BIOS"],a:"Download and install apps"},
+  {q:"What is the main purpose of Windows Update?",o:["Install games","Optimize RAM","Deliver security and feature updates","Change UI"],a:"Deliver security and feature updates"},
+  {q:"Which authentication method is considered more secure than passwords?",o:["PIN","Biometric authentication","Username","Captcha"],a:"Biometric authentication"},
+  {q:"ServiceNow is mainly used for managing which type of services?",o:["Databases","IT services","Emails","Networks"],a:"IT services"},
+  {q:"Which ServiceNow module allows users to submit IT-related requests?",o:["Incident","Problem","Service Catalog","Change"],a:"Service Catalog"},
+  {q:"What does M365 stand for in Microsoft products?",o:["Microsoft 360","Managed 365","Microsoft 365","Mail 365"],a:"Microsoft 365"},
+  {q:"Which Windows feature helps recover the system when it fails to boot properly?",o:["System Restore","Startup Repair","Reset PC","Safe Mode"],a:"Startup Repair"},
+  {q:"Which feature allows files to stay online without occupying local disk space?",o:["Offline files","File History","Files On-Demand","OneDrive Vault"],a:"Files On-Demand"},
+  {q:"Microsoft Edge is primarily a:",o:["Search engine","Operating system","Web browser","Email client"],a:"Web browser"},
+  {q:"Which ServiceNow concept defines response and resolution time targets?",o:["OLA","KPI","SLA","CMDB"],a:"SLA"},
+  {q:"Which Edge tracking prevention level balances privacy and website compatibility?",o:["Strict","Basic","Balanced","Off"],a:"Balanced"},
+  {q:"Files On-Demand in OneDrive is especially useful for users who:",o:["Have slow CPU","Have limited storage","Use LAN","Use SSD"],a:"Have limited storage"},
+  {q:"Which Windows feature allows administrators to control settings centrally?",o:["Control Panel","Registry","Group Policy","Task Manager"],a:"Group Policy"},
+  {q:"What happens when a OneDrive file conflict occurs due to simultaneous edits?",o:["Overwrite","Deletion","Creation of a conflicted copy","Sync failure"],a:"Creation of a conflicted copy"},
+  {q:"Which Microsoft service enables Copilot to access emails, documents, and calendar data securely?",o:["Azure AD","Power BI","Microsoft Graph","OneDrive"],a:"Microsoft Graph"},
+  {q:"Windows Hello PIN is considered more secure because it is:",o:["Reusable","Cloud stored","Device-specific and encrypted","Text based"],a:"Device-specific and encrypted"},
+  {q:"Which WSL feature benefits developers the most?",o:["GUI support","Run Linux tools natively","Lower RAM usage","Faster UI"],a:"Run Linux tools natively"},
+  {q:"What is the purpose of a pilot deployment in Windows rollout?",o:["Final rollout","Test with small group","Rollback","Patch update"],a:"Test with small group"},
+  {q:"Which ServiceNow process focuses on restoring services quickly after an outage?",o:["Change","Problem","Incident Management","Request"],a:"Incident Management"},
+  {q:"Which Windows tool helps identify hardware and driver-related problems?",o:["Disk Manager","Event Viewer","Device Manager","Task Manager"],a:"Device Manager"},
+  {q:"Copilot in Microsoft Word is most useful for which task?",o:["Spelling","Drafting and summarizing","Printing","Formatting only"],a:"Drafting and summarizing"},
+  {q:"Which deployment tool helps migrate user files and settings to a new system?",o:["DISM","USMT","MDT","SCCM"],a:"USMT"},
+  {q:"Which Windows update option allows delaying feature updates in organizations?",o:["Windows Defender","WSUS","Windows Update for Business","Group Policy"],a:"Windows Update for Business"},
+  {q:"Which ServiceNow feature enables users to solve common problems without contacting IT?",o:["Incident","Knowledge","Self-Service Portal","CMDB"],a:"Self-Service Portal"},
+  {q:"Why should registry changes be made carefully?",o:["They are slow","They can damage the system","They need internet","They need admin"],a:"They can damage the system"},
+  {q:"Which Copilot security rule ensures users only see data they are allowed to access?",o:["Data masking","Security trimming","Encryption","RBAC"],a:"Security trimming"},
+  {q:"Which Edge setting blocks third-party trackers across websites?",o:["InPrivate","Tracking Prevention","SmartScreen","Firewall"],a:"Tracking Prevention"},
+  {q:"Which ServiceNow database stores information about IT assets and configurations?",o:["Asset DB","SLA DB","CMDB","ITDB"],a:"CMDB"},
+  {q:"Which Windows feature helps recover files after accidental deletion?",o:["Recycle Bin","File History","Backup","Restore Point"],a:"File History"},
+  {q:"Microsoft Store permissions mainly control access to which system components?",o:["Themes","Apps","Camera, microphone, and location","Drivers"],a:"Camera, microphone, and location"},
+  {q:"An organization wants to enforce Microsoft Edge security policies across all domain systems. Which method is most effective?",o:["Firewall","Antivirus","Group Policy or Intune","Registry"],a:"Group Policy or Intune"},
+  {q:"If OneDrive synchronization fails due to storage issues, which feature should be enabled first?",o:["Recycle Bin","Files On-Demand","Compression","Cleanup"],a:"Files On-Demand"},
+  {q:"Microsoft 365 Copilot fails to summarize a document even though it exists. What is the most likely reason?",o:["No internet","Large file","No user permission","Wrong format"],a:"No user permission"},
+  {q:"Which WSL version provides better performance by using a full Linux kernel?",o:["WSL 1","WSL 2","Linux VM","Docker"],a:"WSL 2"},
+  {q:"Why is a rollback plan critical during a Windows deployment strategy?",o:["Upgrade faster","Recover from failure","Save cost","Improve UI"],a:"Recover from failure"},
+  {q:"Which authentication failure would prevent Windows Hello facial recognition from working?",o:["Low RAM","Camera or biometric failure","Wrong OS","Slow disk"],a:"Camera or biometric failure"},
+  {q:"Which centralized service is used to manage Windows updates at an enterprise scale?",o:["Windows Update","WSUS","Store","Intune"],a:"WSUS"},
+  {q:"In ServiceNow, Change Management mainly helps organizations to:",o:["Deploy apps","Reduce risk of changes","Track users","Monitor CPU"],a:"Reduce risk of changes"},
+  {q:"Which Microsoft service connects Copilot with organizational data like emails and documents?",o:["Azure","OneDrive","Microsoft Graph","SharePoint"],a:"Microsoft Graph"},
+  {q:"Why should registry tweaks be tested before applying in production systems?",o:["Improve speed","Avoid instability","Reduce RAM","Change UI"],a:"Avoid instability"},
+  {q:"Which deployment strategy minimizes risk during large Windows rollouts?",o:["Big bang","Pilot","Phased deployment","Immediate"],a:"Phased deployment"},
+  {q:"Which ServiceNow feature measures response and resolution performance?",o:["KPI","CMDB","SLA","Incident"],a:"SLA"},
+  {q:"Enabling Strict tracking prevention in Edge may cause issues because it:",o:["Slows PC","Blocks some websites","Uses RAM","Breaks Edge"],a:"Blocks some websites"},
+  {q:"Which Windows tool is best for resolving driver conflicts after OS deployment?",o:["Event Viewer","Disk Manager","Device Manager","Control Panel"],a:"Device Manager"},
+  {q:"What is the primary advantage of Microsoft 365 Copilot in modern workplaces?",o:["Storage","Security","AI-driven productivity","Automation"],a:"AI-driven productivity"},
+  {q:"Which feature in Microsoft Edge allows private browsing without saving history or cookies?",o:["Tracking","Secure","InPrivate mode","Incognito"],a:"InPrivate mode"},
+  {q:"Microsoft Edge’s Tracking Prevention helps users by:",o:["Blocking ads","Blocking trackers","Saving data","Speed boost"],a:"Blocking trackers"},
+  {q:"Which setting in Edge allows users to automatically clear browsing data when closing the browser?",o:["History","Cookies","Clear browsing data on close","Cache"],a:"Clear browsing data on close"},
+  {q:"Which of the following is NOT cleared when using a normal browsing window?",o:["Cache","Cookies","Saved passwords","History"],a:"Saved passwords"},
+  {q:"Which protocol ensures secure communication while browsing in Edge?",o:["HTTP","FTP","HTTPS","SMTP"],a:"HTTPS"},
+  {q:"App permissions can be controlled from:",o:["Control Panel","Microsoft Store","Windows Settings","Registry"],a:"Windows Settings"},
+  {q:"The Files On-Demand feature in OneDrive helps users:",o:["Store locally","Access files without downloading","Compress data","Backup"],a:"Access files without downloading"},
+  {q:"To sync files automatically to the cloud, OneDrive must be:",o:["Installed","Signed in and running","Online only","Updated"],a:"Signed in and running"},
   {q:"Windows Hello supports all EXCEPT:",o:["Face","Fingerprint","PIN","Password-only login"],a:"Password-only login"},
-  {q:"Reset this PC is found under:",o:["Settings → Update","Settings → System → Recovery","Control Panel","Boot menu"],a:"Settings → System → Recovery"},
-  {q:"Real-time collaboration uses:",o:["Email","OneDrive/SharePoint","Bluetooth","USB"],a:"OneDrive/SharePoint"},
-  {q:"Group Policy is used in:",o:["Home PCs","Gaming","Enterprise management","Personal use"],a:"Enterprise management"},
-  {q:"Tool to edit Group Policy:",o:["regedit","gpedit.msc","services.msc","taskmgr"],a:"gpedit.msc"},
-  {q:"Windows Registry stores:",o:["User files","System configuration","Logs","Updates"],a:"System configuration"},
-  {q:"Command to open Registry:",o:["cmd","regedit","services","gpedit"],a:"regedit"},
-  {q:"WSL allows running:",o:["Windows apps","Android apps","Linux apps on Windows","macOS apps"],a:"Linux apps on Windows"},
-  {q:"ServiceNow is a platform for:",o:["Networking","IT Service Management","Storage","Security"],a:"IT Service Management"},
-  {q:"Workflow automation helps to:",o:["Monitor CPU","Automate processes","Track users","Secure apps"],a:"Automate processes"},
-  {q:"ServiceNow dashboard helps teams:",o:["Install apps","Monitor performance & health","Backup data","Track emails"],a:"Monitor performance & health"}
+  {q:"The Reset this PC option is found under:",o:["Settings → Update","Settings → System → Recovery","Control Panel","Boot menu"],a:"Settings → System → Recovery"},
+  {q:"Microsoft 365 apps like Word and PowerPoint support real-time collaboration using:",o:["Email","OneDrive and SharePoint","Bluetooth","USB"],a:"OneDrive and SharePoint"},
+  {q:"M365 Copilot is an AI tool used for:",o:["Storage","AI assistance","Security","Automation"],a:"AI assistance"},
+  {q:"Copilot in Microsoft 365 can assist with:",o:["Only writing","Writing and analysis","Printing","Formatting"],a:"Writing and analysis"},
+  {q:"Copilot is powered by:",o:["Only AI models","AI models and Microsoft Graph","OneDrive","SharePoint"],a:"AI models and Microsoft Graph"},
+  {q:"Group Policy is mainly used in:",o:["Home PCs","Gaming","Enterprise management","Personal use"],a:"Enterprise management"},
+  {q:"Which tool is used to edit Windows Group Policies?",o:["regedit","gpedit.msc","services.msc","taskmgr"],a:"gpedit.msc"},
+  {q:"The Windows Registry stores:",o:["User files","System configuration","Logs","Updates"],a:"System configuration"},
+  {q:"The command to open Windows Registry is:",o:["cmd","regedit","services","gpedit"],a:"regedit"},
+  {q:"WSL allows users to run:",o:["Windows apps","Android apps","Linux apps on Windows","macOS apps"],a:"Linux apps on Windows"},
+  {q:"A successful Windows deployment starts with:",o:["Installation","Planning and assessment","Testing","Rollback"],a:"Planning and assessment"},
+  {q:"User data migration tools help in:",o:["Backup","Transferring user data","Deleting data","Compressing files"],a:"Transferring user data"},
+  {q:"Device drivers are required for:",o:["Software updates","Hardware communication","Security","UI"],a:"Hardware communication"},
+  {q:"A deployment timeline is used to:",o:["Install faster","Plan deployment phases","Monitor CPU","Reduce RAM"],a:"Plan deployment phases"},
+  {q:"Which tool is commonly used for enterprise Windows deployment?",o:["DISM","MDT","WSUS","USMT"],a:"MDT"},
+  {q:"ServiceNow is primarily a platform for:",o:["Networking","IT Service Management","Storage","Security"],a:"IT Service Management"},
+  {q:"The main module used for tracking user issues in ServiceNow is:",o:["Problem","Incident Management","Change","CMDB"],a:"Incident Management"},
+  {q:"ServiceNow’s workflow automation helps:",o:["Monitor CPU","Automate processes","Track users","Secure apps"],a:"Automate processes"},
+  {q:"The ServiceNow dashboard helps IT teams:",o:["Install apps","Monitor performance and health","Backup data","Track emails"],a:"Monitor performance and health"}
 ];
 
 /* ================= SHUFFLE ================= */
@@ -175,7 +184,6 @@ function render(){
   let q=questions[index];
   let opts=[...q.o];
   shuffle(opts);
-  q.opts=opts;
   q.correctIndex=opts.indexOf(q.a);
 
   document.getElementById("quiz").innerHTML=`
