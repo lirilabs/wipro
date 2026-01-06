@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WIPRO DWS – Unit IV | Application Management Assessment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,sans-serif;
+  background:#000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:20px 0;
+}
+.container{width:100%;max-width:860px;padding:20px}
+.card{border:1px solid #fff;border-radius:8px;padding:26px;background:#111}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.qno{font-size:14px;opacity:.85}
+.timer{font-weight:700;font-size:16px;color:#0f0}
+.question{font-size:18px;font-weight:700;margin-bottom:22px;line-height:1.5}
+.option{
+  padding:14px;border:1px solid #fff;border-radius:6px;
+  margin-bottom:12px;cursor:pointer;transition:.2s
+}
+.option:hover{background:#222}
+.option.disabled{pointer-events:none;opacity:.7}
+.correct{background:#0a0!important;border-color:#0a0!important}
+.wrong{background:#a00!important;border-color:#a00!important}
+.btn{
+  margin-top:20px;width:100%;padding:14px;font-size:16px;
+  font-weight:700;background:#fff;color:#000;border:none;
+  border-radius:6px;cursor:pointer
+}
+.result{border:1px solid #fff;border-radius:8px;padding:34px;text-align:center;background:#111}
+.result h1{font-size:32px;margin:0;color:#0f0}
+.big{font-size:18px;margin:10px 0}
+.list{text-align:left;margin-top:22px;max-height:500px;overflow-y:auto}
+.list p{
+  background:#222;padding:12px;border-radius:6px;
+  margin-bottom:12px;border-left:4px solid #a00
+}
+.progress{width:100%;height:6px;background:#333;border-radius:3px;margin-bottom:20px}
+.progress-bar{height:100%;background:linear-gradient(90deg,#0f0,#0a0)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="quiz" class="card"></div>
+  <div id="result" class="result" style="display:none"></div>
+</div>
+
+<script>
+let questions = [
+{q:"Windows application packaging is mainly used to",o:["Design applications","Standardize, deploy, update, repair, and uninstall applications efficiently","Create drivers","Monitor networks"],a:"Standardize, deploy, update, repair, and uninstall applications efficiently"},
+{q:"Which command is used to install an MSI package?",o:["setup.exe","msiexec /i package.msi","install.msi","msi /install"],a:"msiexec /i package.msi"},
+{q:"Which command is used to uninstall an MSI package?",o:["msiexec /u","remove.msi","msiexec /x package.msi","delete.exe"],a:"msiexec /x package.msi"},
+{q:"The Windows Installer service is also known as",o:["WINSVC","MSIEXEC","INSTALLER","SETUP"],a:"MSIEXEC"},
+{q:"Repairing an MSI package is done using",o:["msiexec /r","msiexec /f","repair.exe","fix.msi"],a:"msiexec /f"},
+{q:"MSI stands for",o:["Microsoft Software Installer","Microsoft Installer","Managed Software Installer","Modern Setup Installer"],a:"Microsoft Installer"},
+{q:"Which file extension is used for Windows Installer packages?",o:[".exe",".msi",".pkg",".zip"],a:".msi"},
+{q:"The main purpose of MSI packaging is",o:["Manual installation","Consistent and silent application deployment","Gaming support","Hardware control"],a:"Consistent and silent application deployment"},
+{q:"NTFS stands for",o:["New Technology File System","Network Transfer File System","Next Type File System","New Technical Format System"],a:"New Technology File System"},
+{q:"FAT file system does NOT support",o:["Large files","File permissions, encryption, compression","USB drives","Boot records"],a:"File permissions, encryption, compression"},
+{q:"Which file system supports encryption and compression?",o:["FAT32","exFAT","NTFS","UFS"],a:"NTFS"},
+{q:"Windows services run in the background and are managed by",o:["Task Manager","Service Control Manager","Registry Editor","Control Panel"],a:"Service Control Manager"},
+{q:"The Print Spooler service is used to",o:["Install printers","Manage print jobs","Scan documents","Share files"],a:"Manage print jobs"},
+{q:"If Print Spooler service stops,",o:["PC shuts down","Printing will not work","Only scanning stops","Drivers uninstall"],a:"Printing will not work"},
+{q:"User management in Windows controls",o:["Hardware devices","Users, groups, permissions, profiles","Only passwords","System services"],a:"Users, groups, permissions, profiles"},
+{q:"Application behavior in user devices depends on",o:["Screen size","User permissions and environment","CPU speed","Monitor resolution"],a:"User permissions and environment"},
+{q:"File and folder permissions are controlled using",o:["FAT rules","NTFS permissions","Group Policy","BIOS"],a:"NTFS permissions"},
+{q:"Registry permissions are required when an application",o:["Reads files","Writes or modifies registry keys","Accesses internet","Uses CPU"],a:"Writes or modifies registry keys"},
+{q:"Least privilege principle means",o:["Giving admin access","Giving users minimum required permissions","Removing permissions","Granting full control"],a:"Giving users minimum required permissions"},
+{q:"Application packaging end-to-end process starts with",o:["Testing","Requirement gathering","Deployment","Installation"],a:"Requirement gathering"},
+{q:"Application packaging lab setup mainly includes",o:["Office tools","Clean VM, tools, snapshots","Production data","User profiles"],a:"Clean VM, tools, snapshots"},
+{q:"Which is NOT a method of application packaging?",o:["MSI","MSIX","PSADT","Manual end-user installation"],a:"Manual end-user installation"},
+{q:"PSADT stands for",o:["PowerShell App Deployment Toolkit","Program Setup Automation Tool","Packaging System Deployment Tool","Power Setup Delivery Tool"],a:"PowerShell App Deployment Toolkit"},
+{q:"PSADT is mainly used for",o:["UI design","Application deployment automation","Driver updates","Monitoring"],a:"Application deployment automation"},
+{q:"SCCM stands for",o:["System Configuration Control Module","System Center Configuration Manager","Software Control Console Manager","Secure Client Configuration Manager"],a:"System Center Configuration Manager"},
+{q:"SCCM is used to",o:["Develop apps","Deploy and manage applications and devices","Design networks","Create users"],a:"Deploy and manage applications and devices"},
+{q:"MSIX is a modern packaging format that combines",o:["EXE and ZIP","MSI and AppX features","APK and IPA","MSI and CAB"],a:"MSI and AppX features"},
+{q:"One major benefit of MSIX is",o:["Fast boot","Clean install and uninstall","Gaming performance","Smaller screen size"],a:"Clean install and uninstall"},
+{q:"MSIX architecture provides",o:["High graphics","Application isolation and security","Hardware control","Faster internet"],a:"Application isolation and security"},
+{q:"A current limitation of MSIX is",o:["Slow install","Limited support for drivers and services","Large size","No UI"],a:"Limited support for drivers and services"},
+{q:"Microsoft MSIX Packaging Tool is used to",o:["Create drivers","Convert traditional apps to MSIX","Edit registry","Install updates"],a:"Convert traditional apps to MSIX"},
+{q:"Which property uniquely identifies an MSI product?",o:["ProductName","UpgradeCode","ProductCode","PackageCode"],a:"ProductCode"},
+{q:"Which component contains compressed installer files?",o:["EXE","CAB file","DLL","INI"],a:"CAB file"},
+{q:"FAT32 limitation includes",o:["No folders","Maximum file size of 4GB","No USB support","No boot"],a:"Maximum file size of 4GB"},
+{q:"NTFS journaling helps mainly in",o:["Faster boot","Faster recovery after system crashes","Gaming speed","UI rendering"],a:"Faster recovery after system crashes"},
+{q:"User-specific application settings are stored in",o:["HKLM","HKEY_CURRENT_USER (HKCU)","HKEY_USERS","HKEY_CLASSES_ROOT"],a:"HKEY_CURRENT_USER (HKCU)"},
+{q:"Which permission allows changing file contents?",o:["Read","Write","Modify","Execute"],a:"Modify"},
+{q:"Main purpose of application packaging is",o:["UI enhancement","Reliable and standardized deployment","Gaming","Design"],a:"Reliable and standardized deployment"},
+{q:"Clean VM is required in packaging to",o:["Increase speed","Avoid capturing unwanted changes","Install games","Reduce RAM"],a:"Avoid capturing unwanted changes"},
+{q:"Registry access is controlled using",o:["Firewall","Registry permissions","Antivirus","Services"],a:"Registry permissions"},
+{q:"Which file system supports compression?",o:["FAT","FAT32","NTFS","exFAT"],a:"NTFS"},
+{q:"MSIX is preferred because it offers",o:["Speed only","Security, reliability, clean uninstall","Graphics","Gaming support"],a:"Security, reliability, clean uninstall"}
+];
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}
+shuffle(questions);
+
+let index=0,answers=[],timer,timeLeft=15,totalTime=0,locked=false;
+
+function render(){
+locked=false;timeLeft=15;
+let q=questions[index];let opts=[...q.o];shuffle(opts);
+q.correctIndex=opts.indexOf(q.a);
+let p=(index/questions.length)*100;
+quiz.innerHTML=`
+<div class="progress"><div class="progress-bar" style="width:${p}%"></div></div>
+<div class="top"><div class="qno">Question ${index+1}/${questions.length}</div>
+<div class="timer" id="timer">${timeLeft}s</div></div>
+<div class="question">${q.q}</div>
+${opts.map((o,i)=>`<div class="option" onclick="select(${i})">${o}</div>`).join("")}`;
+startTimer();
+}
+
+function startTimer(){
+clearInterval(timer);
+timer=setInterval(()=>{
+timeLeft--;totalTime++;
+timerEl.textContent=timeLeft+"s";
+if(timeLeft<=0){clearInterval(timer);autoFail();}
+},1000);
+}
+
+function autoFail(){
+if(locked)return;locked=true;
+answers[index]=-1;
+document.querySelectorAll(".option")[questions[index].correctIndex].classList.add("correct");
+quiz.innerHTML+=`<button class="btn" onclick="next()">Next</button>`;
+}
+
+function select(i){
+if(locked)return;locked=true;clearInterval(timer);
+answers[index]=i;
+let q=questions[index];let opts=document.querySelectorAll(".option");
+opts.forEach(o=>o.classList.add("disabled"));
+if(i===q.correctIndex)opts[i].classList.add("correct");
+else{opts[i].classList.add("wrong");opts[q.correctIndex].classList.add("correct");}
+quiz.innerHTML+=`<button class="btn" onclick="next()">Next</button>`;
+}
+
+function next(){index<questions.length-1?(index++,render()):showResult()}
+
+function showResult(){
+quiz.style.display="none";result.style.display="block";
+let score=answers.filter((a,i)=>a===questions[i].correctIndex).length;
+result.innerHTML=`<h1>Assessment Complete</h1>
+<div class="big">Score: ${score}/${questions.length}</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
